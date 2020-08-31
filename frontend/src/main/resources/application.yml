@@ -1,0 +1,21 @@
+#  Code from https://github.com/arcuri82/testing_security_development_enterprise_systems/blob/master/intro/exercise-solutions/quiz-game/part-11/frontend/src/main/resources/application.yml
+
+jsf:
+  projectStage: Production
+
+
+spring:
+  datasource:
+    driver-class-name: "org.postgresql.Driver"
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        jdbc:
+          lob:
+            non_contextual_creation=true: true

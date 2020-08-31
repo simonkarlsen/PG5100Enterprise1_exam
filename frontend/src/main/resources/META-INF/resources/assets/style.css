@@ -1,0 +1,50 @@
+/*Altered code from course (lecturer) has been used in this file*/
+
+html, body{
+    margin: 5px;
+    background-color: rgb(200, 200, 200);
+    color: rgb(25, 25, 25);
+    text-align: center;
+    font-size: 1.2em;
+    position: relative;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.searchBox{
+   align-self: center;
+    min-width: 300px !important;
+    max-width: 600px !important;
+    margin: 10px;
+    min-height: 25px;
+}
+
+.form{
+    min-width: 100px !important;
+    width: 150px;
+    margin: 10px;
+    min-height: 25px;
+    align-self: center;
+}
+
+.btn {
+    border: 2px solid rgb(30,30,30);
+    border-radius: 10px;
+    background-color: rgb(100, 200, 255);
+    color: rgb(255, 255, 255);
+    margin: 10px;
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+    min-width: 100px;
+    min-height: 25px;
+    text-decoration: ghostwhite;
+}
+
+
+
+
+
+

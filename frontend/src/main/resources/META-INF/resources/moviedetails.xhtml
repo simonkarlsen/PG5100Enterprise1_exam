@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Altered code from course (lecturer) has been used in this file-->
+<!--https://github.com/arcuri82/testing_security_development_enterprise_systems/blob/master/intro/exercise-solutions/quiz-game/part-11/frontend/src/main/resources/META-INF/resources/ui/match.xhtml-->
+<!--https://github.com/arcuri82/testing_security_development_enterprise_systems/blob/master/intro/spring/jsf/src/main/resources/META-INF/resources/ex03/ex03.xhtml-->
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:sec="http://www.springframework.org/security/tags"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xml:lang="en" lang="en">
+<ui:composition template="layout.xhtml">
+    <ui:define name="title">
+        Movie details
+    </ui:define>
+
+    <ui:define name="content">
+        <c:set var="users" value="#{userInfoController.user}"/>
+        <ui:param name="movies" value="#{movieReviewController.getMovies()}"/>
+        <ui:param name="errorText" value=""/>
+
+
+        <c:if test="#{empty param['query']}">
+            <ui:param name="reviewsList" value="#{movieReviewController.getReviews()}"/>
+            <ui:param name="errorText" value="No reviews exists"/>
+        </c:if>
+
+        <c:if test="#{!empty param['query']}">
+            <ui:param name="reviewsList"
+                      value="#{movieReviewController.filterReviews(param['filterBy'])}"/>
+        </c:if>
+
+        <c:choose>
+            <c:when test="#{reviewsList.size() == 0}">
+                <h:outputLabel>#{errorText}</h:outputLabel>
+            </c:when>
+            <c:otherwise>
+                <br/>
+                <p>(Default: ordered by created time)</p>
+                <h:form prependId="false" styleClass="searchBox">
+                    <h:selectOneMenu id="selectOneID" styleClass="form" value="#{filterController.selection}">
+                        <f:selectItem itemValue="byTime" itemLabel="Order by created time"/>
+                        <f:selectItem itemValue="byStars" itemLabel="Order by stars"/>
+                    </h:selectOneMenu>
+                    <br/>
+                    <h:commandButton id="searchBtn" styleClass="btn" value="Click to order by chosen option"
+                                     action="#{filterController.getLink()}"/>
+                </h:form>
+
+                <p>All reviews: </p>
+                <sec:anonymous>
+                    <h:dataTable value="#{reviewsList}" var="user" border="1" id="reviewTable">
+                        <h:column>
+                            <f:facet name="header">ID</f:facet>
+                            <h:outputText value="#{user.id}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Movie</f:facet>
+                            <h:outputText value="#{user.movieInformation.title}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Review</f:facet>
+                            <h:outputText value="#{user.reviewText}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Stars given by user</f:facet>
+                            <h:outputText value="#{user.stars} / 5"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">User</f:facet>
+                            <h:outputText value="#{user.reviewOwner.userID}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Created</f:facet>
+                            <h:outputText value="#{user.createdDate}">
+                                <!--Defaults to GMT+0 (UTC), so time would be two hours off in Norway-->
+                                <f:convertDateTime pattern="dd/MM/yyyy, HH:mm:ss"/>
+                            </h:outputText>
+                        </h:column>
+                    </h:dataTable>
+                </sec:anonymous>
+
+                <sec:authenticated>
+                    <h:dataTable value="#{reviewsList}" var="user" border="1" id="reviewTableLogin">
+                        <h:column>
+                            <f:facet name="header">ID</f:facet>
+                            <h:outputText value="#{user.id}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Movie</f:facet>
+                            <h:outputText value="#{user.movieInformation.title}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Review</f:facet>
+                            <h:outputText value="#{user.reviewText}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Stars given by user</f:facet>
+                            <h:outputText value="#{user.stars} / 5"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">User</f:facet>
+                            <h:outputText value="#{user.reviewOwner.userID}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Created</f:facet>
+                            <h:outputText value="#{user.createdDate}">
+                                <!--                                Defaults to GMT+0 (UTC), so time would be two hours off in Norway-->
+                                <f:convertDateTime pattern="dd/MM/yyyy, HH:mm:ss"/>
+                            </h:outputText>
+                        </h:column>
+                    </h:dataTable>
+
+                    <br/>
+                    <p>Write a review:</p>
+
+                    <h:dataTable value="#{movies}" var="movie" border="1" id="reviewRatingTableLogin">
+                        <h:column>
+                            <f:facet name="header">Movie</f:facet>
+                            <h:outputText value="#{movie.title}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Submit a review</f:facet>
+                            <h:form prependId="false" styleClass="reviewBox">
+                                <p>Write a review:</p>
+                                <h:inputText id="inputReview1" styleClass="form"
+                                             value="#{movieReviewController.formText}"/>
+                                <br/>
+                                <p>Give a rating from number 1 to 5: </p>
+                                <h:inputText id="inputRating1" styleClass="form"
+                                             value="#{movieReviewController.stars}"/>
+                                <br/>
+                                <h:commandButton id="submitBtn" styleClass="btn" value="Submit review"
+                                                 action="#{movieReviewController.newReview(movie.id, users.userID)}"/>
+                            </h:form>
+                        </h:column>
+                    </h:dataTable>
+
+                </sec:authenticated>
+
+            </c:otherwise>
+
+        </c:choose>
+
+    </ui:define>
+</ui:composition>
+</html>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Altered code from course (lecturer) has been used in this file-->
+<!--https://github.com/arcuri82/testing_security_development_enterprise_systems/blob/master/intro/exercise-solutions/quiz-game/part-11/frontend/src/main/resources/META-INF/resources/index.xhtml-->
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:f="http://java.sun.com/jsf/core"
+      xml:lang="en" lang="en">
+<ui:composition template="layout.xhtml">
+    <ui:define name="title">
+        Home
+    </ui:define>
+
+    <ui:define name="content">
+        <c:set var="users" value="#{userInfoController.user}"/>
+        <ui:param name="errorText" value=""/>
+
+        <c:if test="#{empty param['query']}">
+            <ui:param name="movies" value="#{movieReviewController.getMovies()}"/>
+            <ui:param name="errorText" value="No movies exists"/>
+        </c:if>
+
+        <c:if test="#{!empty param['query']}">
+            <ui:param name="reviewsList"
+                      value="{movieReviewController.getMovies()}"/>
+        </c:if>
+
+        <c:choose>
+            <c:when test="#{movies.size() == 0}">
+                <h:outputLabel>#{errorText}</h:outputLabel>
+            </c:when>
+            <c:otherwise>
+
+                <h:outputLabel>List of movies: </h:outputLabel>
+
+                <h:dataTable value="#{movies}" var="user" border="1" id="movieTable">
+                    <h:column>
+                        <f:facet name="header">ID</f:facet>
+                        <h:outputText value="#{user.id}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Title</f:facet>
+                        <h:outputText value="#{user.title}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Director</f:facet>
+                        <h:outputText value="#{user.director}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Genre</f:facet>
+                        <h:outputText value="#{user.genre}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Average stars</f:facet>
+                        <h:outputText value="#{user.averageStars} / 5"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Amount of reviews</f:facet>
+                        <h:outputText value="#{user.reviewCount}"/>
+                    </h:column>
+                    <h:column>
+                        <a id="movieDetailsBtn" href="moviedetails.jsf">Go to Movie Details</a>
+                    </h:column>
+                </h:dataTable>
+            </c:otherwise>
+        </c:choose>
+    </ui:define>
+</ui:composition>
+
+</html>

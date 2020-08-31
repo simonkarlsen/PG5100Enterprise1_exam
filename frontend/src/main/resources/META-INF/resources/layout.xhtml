@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Altered code from course (lecturer) has been used in this file-->
+        <!--https://github.com/arcuri82/testing_security_development_enterprise_systems/blob/master/intro/exercise-solutions/quiz-game/part-11/frontend/src/main/resources/META-INF/resources/layout.xhtml-->
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:sec="http://www.springframework.org/security/tags"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xml:lang="en" lang="en">
+<head>
+    <link rel="stylesheet" href="/assets/style.css"/>
+
+    <title>
+        <ui:insert name="title">Title</ui:insert>
+    </title>
+</head>
+<body>
+<a id="homeLink" href="index.jsf" class="btn">Home</a>
+<a id="movieDetailsLink" href="moviedetails.jsf" class="btn">Movie Details (Reviews)</a>
+
+<sec:authenticated>
+    <a id="logoutBtn" class="btn" href="/logout">Logout</a>
+    <h:link class="btn" id="userID" outcome="user" value="User page (Click here to view your submitted review(s))"/>
+    <h:outputLabel>Welcome: #{userInfoController.userName}!</h:outputLabel>
+    <br/>
+</sec:authenticated>
+
+<sec:anonymous>
+    <a id="loginLink" href="login.jsf" class="btn">Log In</a>
+    <a id="signupLink" href="signup.jsf" class="btn">Sign Up</a>
+    <br/>
+    <p class="warningAlert">Please login to review a movie on the Move Details page</p>
+</sec:anonymous>
+
+<ui:insert name="content"/>
+<hr/>
+
+
+</body>
+</html>

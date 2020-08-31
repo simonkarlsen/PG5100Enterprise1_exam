@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Altered code from course (lecturer) has been used in this file-->
+<!--https://github.com/arcuri82/testing_security_development_enterprise_systems/blob/master/intro/exercise-solutions/quiz-game/part-11/frontend/src/main/resources/META-INF/resources/ui/match.xhtml-->
+
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:sec="http://www.springframework.org/security/tags"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xml:lang="en" lang="en">
+<ui:composition template="/layout.xhtml">
+
+    <ui:define name="title">
+        User page
+    </ui:define>
+
+    <ui:define name="content">
+        <c:set var="users" value="#{userInfoController.user}"/>
+        <h:outputLabel id="userNameID">List of #{users.name} #{users.surname}'s reviews:</h:outputLabel>
+        <br/>
+        <sec:authenticated>
+
+
+
+            <c:if test="#{empty param['query']}">
+                <ui:param name="reviewsList" value="#{users.reviews}"/>
+                <ui:param name="errorText" value="You have no reviews.
+                Go to Movie Details (Reviews) page by clicking the Movie Details button to make a review"/>
+            </c:if>
+
+            <c:if test="#{!empty param['query']}">
+                <ui:param name="reviewsList"
+                          value="{users.reviews}"/>
+            </c:if>
+
+            <c:choose>
+                <c:when test="#{reviewsList.size() == 0}">
+                    <h:outputLabel>#{errorText}</h:outputLabel>
+                </c:when>
+                <c:otherwise>
+
+                    <h:form>
+                        <h:dataTable value="#{reviewsList}"
+                                     var="user" border="1" id="itemTable">
+                            <h:column>
+                                <f:facet name="header">Name</f:facet>
+                                <h:outputText value="#{user.movieInformation.title}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Director</f:facet>
+                                <h:outputText value="#{user.movieInformation.director}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Type</f:facet>
+                                <h:outputText value="#{user.movieInformation.genre}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Release Year</f:facet>
+                                <h:outputText value="#{user.movieInformation.releaseYear}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Review</f:facet>
+                                <h:outputText value="#{user.reviewText}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Stars given by you</f:facet>
+                                <h:outputText value="#{user.stars} / 5"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Created</f:facet>
+                                <h:outputText value="#{user.createdDate}">
+                                    <!--Defaults to GMT+0 (UTC), so time would be two hours off in Norway-->
+                                    <f:convertDateTime pattern="dd/MM/yyyy, HH:mm:ss"/>
+                                </h:outputText>
+                            </h:column>
+                        </h:dataTable>
+                    </h:form>
+                </c:otherwise>
+            </c:choose>
+        </sec:authenticated>
+    </ui:define>
+</ui:composition>
+</html>

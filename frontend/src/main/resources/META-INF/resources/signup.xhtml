@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Altered code from course (lecturer) has been used in this file-->
+        <!--https://github.com/arcuri82/testing_security_development_enterprise_systems/blob/master/intro/exercise-solutions/quiz-game/part-11/frontend/src/main/resources/META-INF/resources/signup.xhtml-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+>
+
+<ui:composition template="/layout.xhtml">
+
+    <ui:define name="title">
+        Sign Up
+    </ui:define>
+
+
+    <ui:define name="content">
+        <h:outputText value="Signup"/>
+
+        <h:form prependId="false">
+            <div>
+                <h:outputLabel value="username or password are invalid or user already exists."
+                               rendered="${!empty param['error']}"/>
+                <br/>
+
+                <h:outputText value="Username: "/>
+                <h:inputText id="username" value="#{signUpController.username}" class="login"/><br/>
+                <h:outputText value="Password: "/>
+                <h:inputSecret id="password" value="#{signUpController.password}" class="login"/><br/>
+
+                <h:commandButton id="signUpBtn" value="Sign Up" action="#{signUpController.signUpUser}" class="btn"/>
+            </div>
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>
+
+</html>
