@@ -1,7 +1,5 @@
 #PG5100 Enterprise Programming 1 - exam
-___
-# Student number: 704683  (no candidate number was given in WISEflow or studentweb)
----
+
 
 ### How to run the application
 1. Run this command to install Maven dependencies and to run all tests: `mvn install`
