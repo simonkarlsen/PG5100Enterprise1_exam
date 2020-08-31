@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/simonkarlsen/PG5100Enterprise1_exam.svg?branch=master)](https://travis-ci.com/simonkarlsen/PG5100Enterprise1_exam)
+
 #PG5100 Enterprise Programming 1 - exam
 
 
